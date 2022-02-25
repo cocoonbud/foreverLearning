@@ -1,4 +1,4 @@
-对于 Objective-C 的一些实现，我们可以在 Apple 开源网站上下载 [objc4](https://opensource.apple.com/source/objc4/) 等源码一探究竟，之前也写了一篇如何 debug objc4 源码的文章。这篇文章是从汇编角度简单的去窥探一下 Objective-C 的一些实现，个人记录下。如 Class Metada、属性、对成员变量的访问、调用类方法、调用实例方法、block 这几个基础常用点。
+对于 Objective-C 的一些实现，我们可以在 Apple 开源网站上下载 [objc4](https://opensource.apple.com/source/objc4/) 等源码一探究竟，之前也写了一篇如何 [debug objc4 源码的文章](https://juejin.cn/post/7064610907409612814)。这篇文章是从汇编角度简单的去窥探一下 Objective-C 的一些实现，个人记录下。如 Class Metada、属性、对成员变量的访问、调用类方法、调用实例方法、block 这几个基础常用点。
 
 ### 前言
 
@@ -443,7 +443,7 @@ FunctionalProgrammingLearn`-[THNormalClass calAdd]:
     0x100b9a508 <+36>: ret  
 ```
 
-<img src="https://tva1.sinaimg.cn/large/e6c9d24egy1gznli6jve1j20t707wta3.jpg" alt="image-20220223175619966" style="zoom:90%;" />
+<img src="https://tva1.sinaimg.cn/large/e6c9d24egy1gzpxu1xwm2j20t707wta3.jpg" alt="image-20220223175619966" style="zoom:90%;" />
 
 `x8` 保存的是 `THNormalClass *` 的地址。`[x8, #0x8]` offset 8 字节找到 a 在内存中的位置。ldr 在这里是内存访问指令。
 
@@ -569,7 +569,7 @@ void(^block)(void) = ^(void) {
 
 ![image-20220225163123030](https://tva1.sinaimg.cn/large/e6c9d24egy1gzpuag469uj20s40bamyx.jpg)
 
-<img src="https://tva1.sinaimg.cn/large/e6c9d24egy1gzpudsiiyej215m09kjti.jpg" alt="image-20220225163438361" style="zoom:68%;" />
+<img src="https://tva1.sinaimg.cn/large/e6c9d24egy1gzpxrjlzlxj215m09kjti.jpg" alt="image-20220225163438361" style="zoom:68%;" />
 
 1. 可以看到这是一个 `__NSGlobalBlock__`。
 
