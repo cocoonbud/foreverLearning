@@ -42,3 +42,7 @@ def find_macros(directory, macros):
                                 info['count'] += 1
 ```
 
+## 完整代码
+
+[find_unused_macros_in_iOS_project](https://github.com/cocoonbud/find_unused_macros_in_iOS_project)
+
