@@ -229,6 +229,14 @@
 
     ![image-20220210115516793](https://tva1.sinaimg.cn/large/008i3skNgy1gz8a0i8chdj313u0efmz7.jpg)
 
+41. **unable to find sdk 'macosx.internal'**
+
+    ![image-20240322234641585](/Users/spell/Library/Application Support/typora-user-images/image-20240322234641585.png)
+
+    需要在 **PROJECT  objc** 的 **Build Settings** 中设置 **Base SDK** 为 **MacOS**。 **objc targe**t 的 **Build Settings** 中设置 **Base SDK** 为 **MacOS** 即可。
+
+    ![image-20240322235034595](/Users/spell/Library/Application Support/typora-user-images/image-20240322235034595.png)
+
 #### 调试举例
 
 1. 新建一个 target。如 THObjcDebugDemo
