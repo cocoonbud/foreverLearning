@@ -231,11 +231,11 @@
 
 41. **unable to find sdk 'macosx.internal'**
 
-    ![image-20240322234641585](/Users/spell/Library/Application Support/typora-user-images/image-20240322234641585.png)
+    ![image-20240322234641585](/Users/spell/Downloads/%E6%9C%AA%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6%E5%A4%B9/image-20240322234641585.png)
 
     需要在 **PROJECT  objc** 的 **Build Settings** 中设置 **Base SDK** 为 **MacOS**。 **objc targe**t 的 **Build Settings** 中设置 **Base SDK** 为 **MacOS** 即可。
 
-    ![image-20240322235034595](/Users/spell/Library/Application Support/typora-user-images/image-20240322235034595.png)
+    ![image-20240322235034595](../../Downloads/未命名文件夹/image-20240322235034595.png)
 
 #### 调试举例
 
