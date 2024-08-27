@@ -11,3 +11,6 @@
 ### iOS 底层探索
 * [iOS 底层原理探索之 objc4 源码debug](https://github.com/cocoonbud/foreverLearning/blob/master/iOS%20%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%8E%A2%E7%B4%A2%E4%B9%8B%20objc4%20%E6%BA%90%E7%A0%81debug.md)
 * [汇编角度探索Objctive-C一些常用点的实现](https://github.com/cocoonbud/foreverLearning/blob/master/%E6%B1%87%E7%BC%96%E8%A7%92%E5%BA%A6%E6%8E%A2%E7%B4%A2Objctive-C%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E7%82%B9%E7%9A%84%E5%AE%9E%E7%8E%B0.md)
+
+### 遇到的问题
+* [记 xcode 16.1 beta 中 __mh_execute_header 编译报错](https://github.com/cocoonbud/foreverLearning/blob/master/%E8%AE%B0%20xcode%2016.1%20beta%20%E4%B8%AD%20__mh_execute_header%20%E7%BC%96%E8%AF%91%E6%8A%A5%E9%94%99.md)
