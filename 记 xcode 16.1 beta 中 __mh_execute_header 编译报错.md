@@ -38,7 +38,7 @@ UnityFramework *UnityFrameworkLoad() {
 
 尝试写个 demo 发现在 xcode 15、16 beta 上却都能编译通过。
 
-![image-20240827161101971](https://cdn.jsdelivr.net/gh/cocoonbud/TyporaPic@master//image-20240827161101971.png)
+![image-20240827161101971](https://cdn.jsdelivr.net/gh/cocoonbud/TyporaPic@master//image-20240827161101971-20240827232641878.png)
 
 最终在 [Xcode 16 beta release notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-16-release-notes?changes=_1) 找到如下的一段话：**Some large or complex projects may fail to build and run if they are scanning for specific Mach-O sections in their binaries. (123416939)**。然后尝试把 Xcode 项目的 build settings 里的 `ENABLE_DEBUG_DYLIB` 设置为 NO，编译通过。
 
