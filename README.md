@@ -20,3 +20,4 @@
 ### 3. **Documentation & Tools**
 
 - [Typora + Github + PicGo 的 markdown 免费图床配置.md](https://github.com/cocoonbud/foreverLearning/blob/master/Typora%20%2B%20Github%20%2B%20PicGo%20%E7%9A%84%20markdown%20%E5%85%8D%E8%B4%B9%E5%9B%BE%E5%BA%8A%E9%85%8D%E7%BD%AE.md)
+- [下载和合并 WWDC 字幕文件.md](https://github.com/cocoonbud/foreverLearning/blob/master/%E4%B8%8B%E8%BD%BD%E5%92%8C%E5%90%88%E5%B9%B6%20WWDC%20%E5%AD%97%E5%B9%95%E6%96%87%E4%BB%B6.md)
