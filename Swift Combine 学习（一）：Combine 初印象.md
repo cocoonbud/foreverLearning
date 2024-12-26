@@ -10,6 +10,8 @@
 
 通过 Combine，开发者可以清晰、比较优雅的处理数据流和其转化过程，将复杂的异步操作抽象为流式处理。这种方式不仅让代码看着更加简洁直观，还能提高应用的响应速度和用户体验。在本文中，将简单的介绍 Combine 主要的基本概念，为后续的进一步学习打下一个基础。
 
+本系列文章会有 7 篇来介绍 swift combine，主要内容是整理我之前的一些笔记。从发布者、订阅者、操作符、自定义 publisher 和 subscriber，到 Backpressure 和 schedule，再到最后的一些简化的贴和日常开发的小的可运行的代码例子。也算是自己的知识再梳理吧。希望会对你有一点点帮助。
+
 ## Combine 基础概念
 
 > The Combine framework provides a declarative Swift API for processing values over time. These values can represent many kinds of asynchronous events. Combine declares *publishers* to expose values that can change over time, and *subscribers* to receive those values from the publishers.

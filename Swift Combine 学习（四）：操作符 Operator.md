@@ -39,12 +39,30 @@
     // 输出: 10 20 30 40 50
     ```
 
-  * `flatMap`：用于将上游发布者发出的值转换为另一个发布者，并将新的发布者的值传递给下游。与 `map` 不同，它可以对发布者进行“展平”操作，消除嵌套。
+  * `flatMap`：用于将上游发布者发出的值转换为另一个发布者，并将新的发布者的值传递给下游。与 `map` 不同，它可以对发布者进行展平，消除嵌套。
 
     ```swift
-    let arr = [[1, 2, 3], [4, 5, 6]].flatMap { $0 }
-    print(arr)
-    // 输出: [1, 2, 3, 4, 5, 6]
+    import Combine
+    
+    let publisher = [[1, 2, 3], [4, 5, 6]].publisher
+    
+    // 使用 flatMap 将每个数组转换为新的发布者并展平
+    let cancellable = publisher
+        .flatMap { arr in
+            arr.publisher // 将每个数组转换为一个新的发布者
+        }
+        .sink { value in
+            print(value)
+        }
+    
+    /* 输出:
+    1
+    2
+    3
+    4
+    5
+    6
+    */
     ```
 
 * 过滤操作符：包括 `filter`、`compactMap` 和 `removeDuplicates`，用于选择性地处理某些数据。
@@ -242,7 +260,6 @@
     
     publisher.send(1)
     
-    
     let publisher2 = PassthroughSubject<Int, Never>()
     
     // 使用 multicast() 的情况
@@ -276,9 +293,9 @@
     Subscriber 2 received: 89
     */
     ```
-
-  * `share`：用于使多个订阅者共享同一个数据流。这意味着当多个订阅者订阅时，所有订阅者接收相同的输出，而不是每次订阅时重新触发数据流。
-
+    
+  * `share`：它是一个自动连接的多播操作符，会在第一个订阅者订阅时开始发送值，并且会保持对上游发布者的订阅直到最后一个订阅者取消订阅。当多个订阅者订阅时，所有订阅者接收相同的输出，而不是每次订阅时重新触发数据流。
+  
     ```swift
     import Combine
     
@@ -299,7 +316,6 @@
         }
         .store(in: &cancellables)
                   
-    
     randomPublisher1
         .sink {
             print("Subscriber 2 received: \($0)")
@@ -307,7 +323,6 @@
         .store(in: &cancellables)
     
     publisher.send(1)
-    
     
     let publisher2 = PassthroughSubject<Int, Never>()
     
@@ -344,9 +359,9 @@
     Subscriber 1 received: 92
     */
     ```
-
+  
   `share` 和 `multicast` 的区别：
-
+  
   * 自动连接：使用 `share` 时，原始 `Publisher` 会在第一个订阅者订阅时自动连接，并在最后一个订阅者取消订阅时自动断开连接。
   * 无需手动连接：无需显式调用 `connect()` 方法来启动数据流，`share` 会自动管理连接。
 
@@ -376,7 +391,7 @@ extension Publisher {
 
 ## 类型擦除（Type Erasure）
 
-类型擦除（type erasure）允许在不暴露具体类型的情况下，对遵循相同协议的多个类型进行统一处理。换句话说，类型擦除可以将不同类型的数据包装成一个统一的类型，从而实现更灵活、更清晰、更通用的编程。
+类型擦除（type erasure）允许在不暴露具体类型的情况下，对遵循相同协议的多个类型进行统一处理。换句话说，类型擦除可以将不同类型的数据包装成一个统一的类型，从而实现更灵活、清晰、通用的编程。
 
 ```swift
 let publisher = Just(5)

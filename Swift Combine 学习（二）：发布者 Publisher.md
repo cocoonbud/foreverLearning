@@ -4,7 +4,7 @@
 
 ## 引言
 
-在上一篇文章中，初步简单的介绍了 Combine 框架的基本概念。本文将开始深入探讨 Combine 中的发布者（Publisher）。Publisher 是 Combine 框架的核心组件之一，负责生成和传递数据流。通过理解 Publisher 的类型、特性和使用方法，可以更好地在 Combine 中生成和管理数据流，为构建响应式应用奠定基础。
+在上一篇文章中，初步简单的介绍了 Combine 框架的基本概念，大概有了一个初印象。本文将开始深入探讨 Combine 中的发布者（Publisher）。Publisher 是 Combine 框架的核心组件之一，负责生成和传递数据流。通过理解 Publisher 的类型、特性和使用方法，可以更好地在 Combine 中生成和管理数据流。
 
 ## 发布者 (`Publisher`)
 
@@ -65,7 +65,7 @@ extension Publisher {
 
 `Publisher` 通过 `receive<S>(subscriber: S)` 来接受订阅。
 
-一个发布者可以发布多个值，且可以有两种可能的状态：成功或失败。在成功状态下，发布者会发送 `Output` 类型的值；而在失败状态下，发布者则会发送 `Failure` 类型的错误。如果发布者不会失败，`Failure` 类型通常会被设置为 `Never`，表示不会产生错误。
+一个发布者可以发布多个值，可以有两种可能的状态：成功或失败。在成功状态下，发布者会发送 `Output` 类型的值；在失败状态下，发布者则会发送 `Failure` 类型的错误。如果发布者不会失败，`Failure` 类型通常会被设置为 `Never`，表示不会产生错误。
 
 Combine 框架内置了多种发布者，包括 `Just`、`Future`、`Deferred`、`Empty`、`Fail`、`Record` 以及 `PassthroughSubject` 和 `curValueSubject`。
 
@@ -111,7 +111,7 @@ Combine 框架内置了多种发布者，包括 `Just`、`Future`、`Deferred`�
 
 ### `ConnectablePublisher`
 
-通过 `ConnectablePublisher` 可以控制发布时机。`ConnectablePublisher` 在被订阅者订阅的时候不会立即发送数据，而是被显示的连接。这种特性在处理网络请求、数据库查询等操作时候有用。
+`ConnectablePublisher` 允许开发者控制数据流的开始发送时机。通常情况下，`Publisher` 在有订阅者时会立即开始发送数据，但 `ConnectablePublisher` 可以通过调用 `connect()` 来显式启动数据流。这在需要同步多个订阅者的场景中非常有用，例如网络请求或数据库查询。
 
 比如当多个订阅者订阅了同一个非 `ConnectablePublisher` 的 `Publisher`，有可能会出现其中一个订阅者收到了订阅内容，而另外一个订阅者却没收到的情况。这时候就可以使用 使用 `makeConnectable()` 和 `connect()` 控制发布。
 
@@ -211,7 +211,7 @@ exp.demonstratePublishers()
 
 在 Combine 中，引用共享通常是指多个订阅者（`Subscriber`）共享同一个发布者（`Publisher`）的输出，而不是每个订阅者都触发一次数据生成。这可以通过 `.share()` 操作符实现。
 
-关于 `ConnectablePublisher` 和引用共享所使用的 `share` 操作符号，在此先不展开讲解。讲到操作符的时候再举例说明。
+关于 `ConnectablePublisher` 和引用共享所使用的 `share` 操作符号，在此先不展开讲解，后面讲到操作符的时候再举例说明。
 
 ### Subject
 
@@ -236,10 +236,11 @@ exp.demonstratePublishers()
    
    // Subject：可以随时发送新数据
    let subject = PassthroughSubject<Int, Never>()
-   subject.send(1)  // 可以在任何时候发送值
+   subject.send(1) 
    subject.send(2)
    subject.send(completion: .finished)  // 还可以主动结束
    ```
+
 
 ```Swift
 public protocol Subject<Output, Failure> : AnyObject, Publisher {

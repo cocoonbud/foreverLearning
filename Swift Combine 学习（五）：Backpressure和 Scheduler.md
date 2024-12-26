@@ -17,6 +17,7 @@ Combine 中的订阅遵循以下生命周期：
    1. 调用 `receive(completion:)` 方法表示完成（成功或失败）
    2. 订阅者调用 `cancel()` 方法取消订阅。
 
+
 ## Backpressure
 
 Combine 的 Backpressure 技术用于控制发布者（Publisher）向订阅者（Subscriber）发送数据的速率，防止订阅者因处理能力不足而被过多的数据淹没掉。Backpressure 本质上就是一种流量控制机制，确保系统在高负载或高并发情况下仍然能正常工作。在 Combine 中，Backpressure 通过 `Subscribers.Demand` 来处理：
@@ -52,8 +53,8 @@ Demand 的源码：
 ```swift
 import Combine
 import Foundation
+import PlaygroundSupport
 
-// 模拟一个快速数据生成器
 class FastDataProducer: Publisher {
     typealias Output = Int
     typealias Failure = Never
@@ -62,32 +63,59 @@ class FastDataProducer: Publisher {
     private var timer: Timer?
     private var subscriber: AnySubscriber<Int, Never>?
     
+    private class FastDataSubscription: Subscription {
+        private var producer: FastDataProducer?
+        
+        init(producer: FastDataProducer) {
+            self.producer = producer
+        }
+        
+        func request(_ demand: Subscribers.Demand) {
+            // 写需求
+        }
+        
+        func cancel() {
+            producer?.timer?.invalidate()
+            producer?.timer = nil
+            producer?.subscriber = nil
+            producer = nil
+        }
+    }
+    
     func receive<S>(subscriber: S) where S : Subscriber, Failure == S.Failure, Output == S.Input {
         self.subscriber = AnySubscriber(subscriber)
-        subscriber.receive(subscription: Subscriptions.empty)
+        subscriber.receive(subscription: FastDataSubscription(producer: self))
         
-        // 每0.1秒生成一个新的数字
         timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
             guard let self = self else { return }
             _ = self.subscriber?.receive(self.current)
             self.current += 1
         }
     }
+    
+    func stop() {
+        timer?.invalidate()
+        timer = nil
+        subscriber?.receive(completion: .finished)
+        subscriber = nil
+    }
 }
 
-// 模拟一个慢速数据消费者
 class SlowDataConsumer: Subscriber {
     typealias Input = Int
     typealias Failure = Never
     
+    private var subscription: Subscription?
+    
     func receive(subscription: Subscription) {
-        subscription.request(.max(1)) // 一次只请求一个值
+        self.subscription = subscription
+        subscription.request(.max(1))
     }
     
     func receive(_ input: Int) -> Subscribers.Demand {
         print("接收到值: \(input)")
         Thread.sleep(forTimeInterval: 1)
-        return .max(1) // 处理完一个后再请求一个
+        return .max(1)
     }
     
     func receive(completion: Subscribers.Completion<Never>) {
@@ -97,24 +125,31 @@ class SlowDataConsumer: Subscriber {
 
 let producer = FastDataProducer()
 let consumer = SlowDataConsumer()
-
 producer.subscribe(consumer)
 
-// 运行5秒后停止
 DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
     print("停止")
-    exit(0)
+    producer.stop()
 }
 
-RunLoop.main.run()
+// 我是用 playground 运行，就使用 PlaygroundPage 防止过早退出
+PlaygroundPage.current.needsIndefiniteExecution = true
+
+DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+    PlaygroundPage.current.finishExecution()
+}
+
 
 /*输出：
+接收到值: 0
 接收到值: 1
 接收到值: 2
 接收到值: 3
 接收到值: 4
 停止
+完成
 */
+```
 
 ## Scheduler
 
@@ -166,9 +201,9 @@ public protocol Scheduler<SchedulerTimeType> {
 
 * ImmediateScheduler：立即执行调度器，用于在当前调用堆栈中立即执行操作。这对于调试和测试非常有用，因为它允许在同步上下文中执行代码。
 
-* TimerScheduler：基于 `Timer` 的调度器，用于定时执行任务。通常用于周期性任务，如定时更新或轮询。
+* TimerScheduler：基于 `Timer` 的调度器，用于定时执行任务。通常用于周期性任务，比如定时更新或轮询。
 
-* CurrentValueSubjectScheduler：用于与 `CurrentValueSubject` 一起调度的调度器，允许在流中引入时间因素。
+* CurrentValueSubjectScheduler：与 `CurrentValueSubject` 一起调度的调度器，允许在流中引入时间因素。
 
 ```swift
 import Foundation

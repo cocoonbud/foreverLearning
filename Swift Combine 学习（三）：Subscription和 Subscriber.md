@@ -248,7 +248,7 @@ Combine 框架内置了两种 `Subscriber`：
       //"User's name is: terence"
       ```
 
-   2. `assign(to:)`，此方法是 `assign(to:on:)` 的一个变体。语法 `somePublisher.assign(to: &object.$property)`。使用 `&` 是因为此方法需要一个 `inout` 参数。
+   2. `assign(to:)`，此方法是 `assign(to:on:)` 的一个变体。语法 `somePublisher.assign(to: &object.$property)`。使用 `&` 是因为此方法需要一个 `inout` 参数。这个方法专门用于 @Published 属性，且会自动管理订阅的生命周期，在发布者发送完成或失败信号时会自动取消订阅。
 
       ```swift
           /// Republishes elements received from a publisher, by assigning them to a property marked as a publisher.
