@@ -9,6 +9,7 @@
 ## `Subscription`
 
 > A protocol representing the connection of a subscriber to a publisher.
+>
 > 一个表示订阅者与发布者连接的协议。
 
 ```swift
@@ -85,6 +86,7 @@ showSubscriptionLifecycle()
 ## 订阅者 (`Subscriber`)
 
 >A protocol that declares a type that can receive input from a publisher.
+>
 >一种定义了能够接收来自发布者输入类型的协议。
 
 相当于观察者模式中的 Observer 。在 Combine 框架中，`Subscriber` 定义了如何接收 `Publisher` 发出的值。
@@ -120,7 +122,6 @@ public protocol Subscriber<Input, Failure> : CustomCombineIdentifierConvertible 
 ```
 
 1. 它接受两个泛型参数：
-
    1. `Input` 类型，代表它能够接收的值的类型
    2.  `Failure` 类型，代表它能够接收的错误类型。
 
@@ -153,6 +154,7 @@ public protocol Subscriber<Input, Failure> : CustomCombineIdentifierConvertible 
        print("取消订阅")
        cancellable?.cancel()  // 取消订阅
    }
+   
    /*
    收到 value：2024-12-17 07:43:23 +0000
    收到 value：2024-12-17 07:43:24 +0000

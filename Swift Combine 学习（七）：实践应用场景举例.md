@@ -440,7 +440,7 @@ class UserViewModel {
 }
 
 class UserVC: UIViewController {
-	  // ... 声明一个 nameLabel
+	// ... 声明一个 nameLabel
     
     private var viewModel: UserViewModel!
     private var cancellables = Set<AnyCancellable>()

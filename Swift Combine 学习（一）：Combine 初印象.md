@@ -15,6 +15,7 @@
 ## Combine 基础概念
 
 > The Combine framework provides a declarative Swift API for processing values over time. These values can represent many kinds of asynchronous events. Combine declares *publishers* to expose values that can change over time, and *subscribers* to receive those values from the publishers.
+>
 > Combine 框架提供了一个声明式的 Swift API，用于处理随时间变化的值。这些值可以代表许多种类的异步事件。Combine 声明了发布者来公开随时间变化的值，以及订阅者来从发布者接收这些值。
 
 [Combine 官方文档](https://developer.apple.com/documentation/combine/)

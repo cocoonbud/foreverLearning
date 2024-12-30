@@ -62,7 +62,7 @@ numbers
 
 ## 调试 Combine 代码
 
-响应式编程的一大痛点就是出现 bug 不好排查。Combine 提供了几个有用的操作符来帮助调试：
+响应式编程因为传统的堆栈跟踪信息不足、异步执行和线程切换、一些操作符的链式调用可能使得代码逻辑比较抽象等等原因导致其一大痛点就是出现 bug 不好排查。Swift Combine 提供了几个有用的操作符来帮助调试：
 
 1. 使用 `print` 打印所有事件。
 2. 使用 `breakpoint` 在特定条件下触发断点。
@@ -239,7 +239,7 @@ Print演示完成: finished
 
 iOS 大部分场景下开发者无需自定义 Publisher，因为有 KVO 、 Notification 等。不过有时可能需要创建自定义的 Publisher 或 Subscriber 来满足特定需求。比如封装已经有的异步 API 、有特殊的数据传递需求、实现一些当前 Combine 操作符无法满足的功能的时候。
 
-* 创建一个自定义的 TimerPublisher。这个 TimerPublisher 将模拟一个计时器，每秒发布一个整数值。然后写一个自定义 Subscriber 用于接收从 TimerPublisher 发布的值，并做相应的处理，例如在控制台中打印出接收到的值。
+* 创建一个自定义的 TimerPublisher。这个 TimerPublisher 将模拟一个计时器，每秒发布一个整数值。然后写一个自定义 TimerSubscriber 用于接收从 TimerPublisher 发布的值，并做相应的处理，例如在控制台中打印出接收到的值。
 
   ```swift
   import Combine

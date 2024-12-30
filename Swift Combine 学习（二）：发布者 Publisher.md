@@ -9,6 +9,7 @@
 ## 发布者 (`Publisher`)
 
 > Declares that a type can transmit a sequence of values over time.
+>
 > 声明一个类型可以随着时间推移传输一系列的值。
 
 发布者（`Publisher`）是 Combine 框架中的核心概念之一，它定义如何生成并传递一系列值。像是观察者模式中的 Observable。它可以使用 `operator` 来组合变换，生成新的 `Publisher`。发布者会随时间的推移将一系列值发送给一个或多个订阅者 `Subscriber`。发布者遵循 `Publisher` 协议，该协议定义了两个关联类型：
