@@ -6,11 +6,11 @@
 
 ## 引言
 
-在 iOS 应用开发中，随着功能的复杂性增加，开发者往往需要处理大量异步任务，如网络请求、用户交互、数据同步等等。一般的回调和通知机制在面对复杂的异步操作时，容易导致代码的维护性和可读性下降。面对这些问题，苹果推出了 Combine （iOS 13.0+ / macOS 10.15+）框架，为开发者提供了一种函数响应式编程 （Functional Reactive Programming）的方式来管理异步任务和事件流。
+在 iOS 应用开发中，随着功能越来越多，越来越复杂。开发者往往需要处理大量异步任务，如网络请求、用户交互、数据同步等等。一般的回调和通知机制在面对复杂的异步操作时，容易导致代码的维护性和可读性下降。面对这些问题，苹果推出了 Combine （iOS 13.0+ / macOS 10.15+）框架，为开发者提供了一种函数响应式编程 （Functional Reactive Programming）的方式来管理异步任务和事件流。
 
-通过 Combine，开发者可以清晰、比较优雅的处理数据流和其转化过程，将复杂的异步操作抽象为流式处理。这种方式不仅让代码看着更加简洁直观，还能提高应用的响应速度和用户体验。在本文中，将简单的介绍 Combine 主要的基本概念，为后续的进一步学习打下一个基础。
+通过 Combine，开发者可以清晰、比较优雅的处理数据流、转化过程，将复杂的异步操作抽象为流式处理。这种方式不仅让代码看着更加简洁直观，还能提高应用的响应速度和用户体验。在本文中，将简单的介绍 Combine 主要的基本概念，为后续的进一步学习打下一个基础。
 
-本系列文章会有 7 篇来介绍 swift combine，主要内容是整理我之前的一些笔记。从发布者、订阅者、操作符、自定义 publisher 和 subscriber，到 Backpressure 和 schedule，再到最后的一些简化的贴和日常开发的小的可运行的代码例子。也算是自己的知识再梳理吧。希望会对你有一点点帮助。
+本系列文章会有 7 篇来介绍 swift combine，主要内容是我之前一些笔记的再整理。从发布者、订阅者、操作符、自定义 publisher 和 subscriber，到 Backpressure 和 schedule，再到最后的一些简化的贴合日常开发的可运行的代码小例子。也算是知识再梳理吧。
 
 ## Combine 基础概念
 
@@ -23,7 +23,7 @@
 
 [Swift 论坛中与 Combine 有关的贴](https://forums.swift.org/search?q=Combine%20order%3Alatest_topic)
 
-Swift Combine 框架是 Apple 在 WWDC 2019 上推出的函数响应式编程框架，旨在简化异步编程和事件处理。它类似于 RxSwift。SwiftUI 的数据驱动就依赖于 Combine。它通过发布者（`Publisher`）发布数据，订阅者（`Subscriber`）接收数据，并支持数据处理链式操作，如过滤、转换、错误处理等，简化了复杂的异步任务管理。比如处理网络请求、 Notification 、 KVO 、Target/Action 等。
+Swift Combine 框架是 Apple 在 WWDC 2019 上推出的函数响应式编程框架，旨在简化异步编程和事件处理。它类似于 RxSwift。SwiftUI 的数据驱动就依赖于 Combine。它通过发布者（`Publisher`）发布数据，订阅者（`Subscriber`）接收数据，并支持数据处理链式操作，如过滤、转换、错误处理等。它为 iOS 开发中的各种事件提供了统一的处理方式，比如处理网络请求、 Notification 、 KVO 、Target/Action 等。
 
 ### 函数响应式编程简介
 
@@ -42,7 +42,7 @@ Swift Combine 框架是 Apple 在 WWDC 2019 上推出的函数响应式编程框
 
 ```swift
 import Combine
-// 创建一个发布者
+// 创建一个 PassthroughSubject 发布者
 let publisher = PassthroughSubject<Int, Never>()
 
 let subscription = publisher
@@ -62,6 +62,8 @@ received value: 20
 received value: 40
 */
 ```
+
+上面的例子：声明式的链式操作、自动的事件传递和响应。
 
 回归主题，要理解掌握 Combine，首先需要理解以下三个核心概念：
 
