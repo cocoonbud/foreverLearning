@@ -268,40 +268,49 @@ Combine 框架内置了两种 `Subscriber`：
       class User {
           @Published var name: String = "" {
               didSet {
-                  print("User's name is: \(name)")
+                  print("From didSet user's name is: \(name)")
               }
           }
       }
       
       let user = User()
+      var cancellables = Set<AnyCancellable>()
       
-      // 发布者发布一个字符串
       let publisher = Just("terence")
       
-      // 使用 assign(to:) 订阅发布者，将发布的值赋值给 user 的 name 属性
-      publisher.assign(to: &user.$name)
+      publisher.assign(to: &user.$name) // 这里不会触发 didSet
       
-      // "User's name is: terence"
+      print("User's name value after assign(to:): \(user.name)")
+      
+      Just("maple")
+          .sink { value in
+              user.name = value // 这里会触发 didSet
+          }
+          .store(in: &cancellables)
+      /*
+      User's name value after assign(to:): terence
+      From didSet user's name is: maple
+      */
       ```
-
+   
    `@Published` 属性包装器：
-
+   
    * 当属性被 `@Published` 修饰时，属性除了可作常规属性访问使用外，Combine 会自动为该属性创建一个 `publisher`。可以通过在属性名前加 `$` 符号来访问这个 `publisher`。
-
+   
    `AnyCancellable`：
-
+   
    * 订阅操作返回一个 `AnyCancellable` 对象本质上是一个“取消订阅”的句柄。通过持有这个句柄，可以随时手动取消订阅，以停止接收后续的事件。
    * 遵循 `Cancellable` 协议
    * 在 `deinit` 时自动调用 `cancel()`
    * 可以手动调用 `cancel()` 取消订阅
    * 每一个订阅都需要持有这个 `AnyCancellable` 对象，不然在当前作用域结束时，就会被释放。
-
+   
    避免循环引用：
-
+   
    * 使用 `assign(to:)` 而不是 `assign(to:on:)` 可以避免潜在的引用循环。
-
+   
      * 比如 `assign(to:on:)` 生成的 `AnyCancellable` 如果被类实例持有，而 `AnyCancellable` 也对类实例引用，循环引用。
-
+   
        ```swift
        // 可能导致循环引用的示例
        class MyModel {
@@ -316,9 +325,9 @@ Combine 框架内置了两种 `Subscriber`：
            }
        }
        ```
-
+   
    * `assign(to:)` 不返回 `AnyCancellable`，订阅会随对象释放自动取消。
-
+   
    * 当 `@Published` 修饰的属性所在的对象被释放时，订阅会自动取消。
 
 ## 结语
