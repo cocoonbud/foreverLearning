@@ -16,6 +16,7 @@
 ### 2. **Xcode & Compilation**
 
 - [记 xcode 16.1 beta 中 __mh_execute_header 编译报错.md](https://github.com/cocoonbud/foreverLearning/blob/master/%E8%AE%B0%20xcode%2016.1%20beta%20%E4%B8%AD%20__mh_execute_header%20%E7%BC%96%E8%AF%91%E6%8A%A5%E9%94%99.md)
+- [what's new in xcode  WWDC2025](https://github.com/cocoonbud/foreverLearning/blob/master/what's%20new%20in%20xcode%20%20WWDC2025.md)
 
 ### 3. **Documentation & Tools**
 
